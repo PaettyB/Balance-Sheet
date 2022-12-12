@@ -1,0 +1,54 @@
+{
+  "payments": [
+    {
+      "id": 0,
+      "date": "2022-12-09",
+      "amount": "1.00",
+      "comment": "Payment1"
+    },
+    {
+      "id": 1,
+      "date": "2022-12-09",
+      "amount": "5.00",
+      "comment": "Payment2"
+    },
+    {
+      "id": 2,
+      "date": "2022-12-09",
+      "amount": "1.00",
+      "comment": ""
+    },
+    {
+      "id": 3,
+      "date": "2022-12-09",
+      "amount": "1.00",
+      "comment": ""
+    },
+    {
+      "id": 4,
+      "date": "2022-12-09",
+      "amount": "1.00",
+      "comment": ""
+    }
+  ],
+  "deposits": [
+    {
+      "id": 0,
+      "date": "2022-12-09",
+      "amount": "1.00",
+      "comment": "Deposit1"
+    },
+    {
+      "id": 1,
+      "date": "2022-12-09",
+      "amount": "5.00",
+      "comment": "Deposit2"
+    },
+    {
+      "id": 2,
+      "date": "2022-12-09",
+      "amount": "1.00",
+      "comment": ""
+    }
+  ]
+}

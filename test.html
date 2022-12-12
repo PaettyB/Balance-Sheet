@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script>
+        async function setPayment(item) {
+    console.log("FETCH");
+    const data = await fetch('http://localhost:3333/payments', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ item })
+    });
+    return await data.json();
+   }
+        console.log("TEST");
+        setPayment({"id": 5, "date": "000000", "amount": "0.00", "comment": ""})
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
