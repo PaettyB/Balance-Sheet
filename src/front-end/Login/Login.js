@@ -10,6 +10,9 @@ export default function Login({setToken, getToken}) {
     e.preventDefault();
     const t = login({"username": usernameRef.current.value, "password": passwordRef.current.value});
     t.then(x => {
+      if(!x)
+        return;
+        //TODO: ERROR LOGIN MESSAGE
       setToken(x.token);
       window.location.reload(false);
     });

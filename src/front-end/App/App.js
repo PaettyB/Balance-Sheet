@@ -3,7 +3,7 @@ import TabSelector from './TabSelector';
 import ContentPane from './ContentPane';
 import { fetchPayments, fetchDeposits } from '../../back-end/services/services';
 import Login from '../Login/Login';
-import useToken from './useToken';
+import useToken from '../Login/useToken';
 
 export const LOCAL_STORAGE_TOKEN = "token" 
 
@@ -19,7 +19,7 @@ function App() {
     const [payments, setPayments] = useState([]);
     const [deposits,setDeposits] = useState([]);
 
-    const {token, setToken} = useToken();
+    const {token, setToken, deleteToken} = useToken();
 
     function checkToken(){
         return (token);
@@ -31,14 +31,20 @@ function App() {
             return () => mounted = true;
         fetchPayments()
             .then(response => {
-                if(mounted) {
+                if(mounted && response) {
                 setPayments(response)
+                } else {
+                   alert("Something went wrong");
+                   deleteToken();
                 }
             });
             fetchDeposits()
             .then(response => {
-                if(mounted) {
+                if(mounted && response) {
                 setDeposits(response)
+                } else {
+                    alert("Something went wrong");
+                    deleteToken();
                 }
             });
         return () => mounted = false;
@@ -49,7 +55,7 @@ function App() {
     }
     return (
         <>
-        <TabSelector getState={getState} setState={setState}/>
+        <TabSelector getState={getState} setState={setState} deleteToken={deleteToken}/>
         <ContentPane getState={getState} getPayments={getPayments} setPayments={setPayments} getDeposits={getDeposits} setDeposits={setDeposits}></ContentPane>
         </>
     );

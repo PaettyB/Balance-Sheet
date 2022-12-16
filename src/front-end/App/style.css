@@ -4,10 +4,22 @@
     justify-content: center;
 }
 
+#logoutContainer {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+}
+
+#logout {
+    width: 70px;
+    height: 50%;
+}
+
 .tabSelector {
     padding: 10px;
     margin:10px;
-    width: 200px
+    width: 15%;
 }
 .active{
     color:red;

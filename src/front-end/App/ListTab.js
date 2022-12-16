@@ -13,10 +13,13 @@ export default function ListTab({name, setList,getList, setTransaction}) {
         const date = dateRef.current.value;
         const comment = commentRef.current.value;
         const newListItem = {id: getList().length, date:date, amount:amount, comment:comment}
-        setList(prevList => {
-            return [...prevList, newListItem]
-        });
-        setTransaction(newListItem);
+        const ok = setTransaction(newListItem);
+        ok.then(ok => {
+            if(!ok) return;
+            setList(prevList => {
+                return [...prevList, newListItem]
+            });
+        })
     }
 
     function calculateSum(list){
