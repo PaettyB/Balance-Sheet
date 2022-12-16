@@ -30,15 +30,15 @@ function App() {
         if(!checkToken()) 
             return () => mounted = true;
         fetchPayments()
-            .then(items => {
+            .then(response => {
                 if(mounted) {
-                setPayments(items)
+                setPayments(response)
                 }
             });
             fetchDeposits()
-            .then(items => {
+            .then(response => {
                 if(mounted) {
-                setDeposits(items)
+                setDeposits(response)
                 }
             });
         return () => mounted = false;

@@ -1,0 +1,10 @@
+{
+    "deposits":[
+        {
+            "id": 0,
+            "date": "2022-12-09",
+            "amount": "1.00",
+            "comment": "Deposit1"
+        }
+    ]
+}

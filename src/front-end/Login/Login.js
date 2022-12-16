@@ -8,8 +8,11 @@ export default function Login({setToken, getToken}) {
 
   function handleLogin(e){
     e.preventDefault();
-    const token = login({"username": usernameRef.current.value, "password": passwordRef.current.value});
-    token.then(t => setToken(t));
+    const t = login({"username": usernameRef.current.value, "password": passwordRef.current.value});
+    t.then(x => {
+      setToken(x.token);
+      window.location.reload(false);
+    });
   }
     return (
     <div>

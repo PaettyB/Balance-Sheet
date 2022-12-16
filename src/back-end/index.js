@@ -7,6 +7,12 @@ var https = require('https');
 var privateKey  = fs.readFileSync('C:/Users/Patrick/.ssh/selfsigned.key', 'utf8');
 var certificate = fs.readFileSync('C:/Users/Patrick/.ssh/selfsigned.crt', 'utf8');
 
+const paymentFile = process.cwd()+"/paymentData.json";
+const depositFile = process.cwd()+"/depositData.json";
+
+var paymentData = JSON.parse(fs.readFileSync(paymentFile, "utf-8")).payments;
+var depositData = JSON.parse(fs.readFileSync(depositFile, "utf-8")).deposits;
+
 var credentials = {key: privateKey, cert: certificate};
 var express = require('express');
 
@@ -82,9 +88,6 @@ function restrict(req, res, next) {
     }
 }
 
-app.get('/', function(req, res){
-    res.redirect('/login');
-  });
 
 
 app.use('/restricted', restrict, (req, res) => {
@@ -98,27 +101,44 @@ app.post('/login', jsonParser, function (req, res, next) {
     authenticate(req.body.username, req.body.password, function(err, user){
         if (err) return next(err)
         if (user) {
-            // Regenerate session when signing in
-            // to prevent fixation
-            req.session.regenerate(function(){
-            // Store the user's primary key
-            // in the session store to be retrieved,
-            // or in this case the entire user object
-            console.log(req.session);
-            req.session.user = user;
-            req.session.success = 'Authenticated as ' + user.name
-                + ' click to <a href="/logout">logout</a>. '
-                + ' You may now access <a href="/restricted">/restricted</a>.';
             res.send({ token: "testToken"});
-            });
         } else {
-            req.session.error = 'Authentication failed, please check your '
-            + ' username and password.'
-            + ' (use "tj" and "foobar")';
-            res.redirect('/login');
+            res.sendStatus(403);
         }
     });
   });
+
+  app.get('/logout', function(req, res){
+    // destroy the user's session to log them out
+    // will be re-created next request
+    req.session.destroy(function(){
+      res.redirect('/');
+    });
+  });
+
+app.post('/payments', jsonParser, restrict, function(req, res, next) {
+    if(req.body.action === "ADD"){
+        paymentData.push(req.body.item);
+        fs.writeFileSync(paymentFile, JSON.stringify({"payments":paymentData}))
+        res.sendStatus(200);
+    }
+});
+
+app.post('/deposits', jsonParser, restrict, function(req, res, next) {
+    if(req.body.action === "ADD"){
+        depositData.push(req.body.item);
+        fs.writeFileSync(depositFile, JSON.stringify({"deposits":depositData}))
+        res.sendStatus(200);
+    }
+});
+
+app.get("/payments", function(req, res) {
+    res.send(paymentData);
+});
+
+app.get("/deposits", function(req, res) {
+    res.send(depositData);
+});
 
 
 var httpServer = http.createServer(app);
