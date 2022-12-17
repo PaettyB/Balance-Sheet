@@ -1,10 +1,10 @@
 var token;
+const apiAddress = "192.168.178.43"
 
 export function setTokenLocal(tokenNew) {token = tokenNew}
 
 async function handleResponse(res) {
-  if(res.status ===  403){
-    console.error("Wrong username or password");
+  if(res.status !== 200 && res.status !== 204){
     return null;
   } else {
     try {
@@ -16,7 +16,7 @@ async function handleResponse(res) {
 }
 
 export async function login(credentials) {
-  return await fetch('https://localhost:8443/login', {
+  return await fetch('https://' + apiAddress + ':8443/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -26,10 +26,11 @@ export async function login(credentials) {
 }
 
 export function fetchPayments() {
-  return fetch('https://localhost:8443/payments', {
+  return fetch('https://' + apiAddress + ':8443/payments', {
     method: 'POST',
     headers:{
       'Content-Type': 'application/json'
+      // 'Upgrade-Insecure-Requests': 1
     },
     body: JSON.stringify({action: "GET", "token": token})
   })
@@ -37,7 +38,7 @@ export function fetchPayments() {
 }
 
 export function fetchDeposits() {
-  return fetch('https://localhost:8443/deposits', {
+  return fetch('https://' + apiAddress + ':8443/deposits', {
     method: 'POST',
     headers:{
       'Content-Type': 'application/json'
@@ -48,7 +49,7 @@ export function fetchDeposits() {
 }
 
 export function addPayment(item) {
-  return fetch('https://localhost:8443/payments', {
+  return fetch('https://' + apiAddress + ':8443/payments', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -59,12 +60,34 @@ export function addPayment(item) {
  }
 
 export function addDeposit(item) {
-  return fetch('https://localhost:8443/deposits', {
+  return fetch('https://' + apiAddress + ':8443/deposits', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({action: "ADD", "token": token, item: item})
+
+ }).then(handleResponse);
+}
+
+export function deletePayment(id) {
+  return fetch('https://' + apiAddress + ':8443/payments', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({action: "DELETE", "token": token, id: id})
+
+  }).then(handleResponse);
+}
+
+export function deleteDeposit(id) {
+  return fetch('https://' + apiAddress + ':8443/deposits', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({action: "DELETE", "token": token, id: id})
 
  }).then(handleResponse);
 }

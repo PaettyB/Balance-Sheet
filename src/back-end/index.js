@@ -86,6 +86,16 @@ app.post('/login', jsonParser, function (req, res, next) {
     });
   });
 
+function removeItemFromList(l, id){
+    for(let i = l.length-1; i>=0; i--){
+        if(l[i].id === id){
+            l.splice(i,1);
+            return true;
+        }
+    }
+    return false;
+}
+
 app.post('/payments', jsonParser, restrict, function(req, res, next) {
     if(req.body.action === "ADD"){
         paymentData.push(req.body.item);
@@ -93,6 +103,17 @@ app.post('/payments', jsonParser, restrict, function(req, res, next) {
         res.sendStatus(200);
     } else if(req.body.action === "GET") {
         res.send(paymentData);
+    } else if(req.body.action === "DELETE") {
+        let deleted = removeItemFromList(paymentData, req.body.id);
+        if(!deleted) {
+            console.log("Item was not found: "+ req.body.id);
+            res.sendStatus(400);
+            return;
+        }
+        fs.writeFileSync(paymentFile, JSON.stringify({"payments":paymentData}))
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(400);
     }
 });
 
@@ -103,7 +124,22 @@ app.post('/deposits', jsonParser, restrict, function(req, res, next) {
         res.sendStatus(200);
     }else if(req.body.action === "GET") {
         res.send(depositData);
+    } else if(req.body.action === "DELETE") {
+        let deleted = removeItemFromList(depositData, req.body.id);
+        if(!deleted) {
+            console.log("Item was not found:" + req.body.id);
+            res.sendStatus(400);
+            return;
+        }
+        fs.writeFileSync(depositFile, JSON.stringify({"deposits":depositData}))
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(400);
     }
+});
+
+app.get("/test", function(req,res) {
+    res.send("TEST");
 });
 
 

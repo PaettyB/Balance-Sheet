@@ -25,7 +25,6 @@ export default function Login({setToken, getToken}) {
             <input ref={passwordRef} type='password' placeholder='Password'></input>
             <button type='submit' onClick={handleLogin}>Login</button>
         </form>
-        <p>Token: {getToken()}</p>
     </div>
   )
 }
