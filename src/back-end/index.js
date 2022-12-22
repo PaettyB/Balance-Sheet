@@ -1,7 +1,7 @@
+import { apiPort } from '../res/config';
 var secretToken = "1d794e0a0f9df0ac77e3800c757306f9";
 
 var fs = require('fs');
-var http = require('http');
 var https = require('https');
 var privateKey  = fs.readFileSync('C:/Users/Patrick/.ssh/selfsigned.key', 'utf8');
 var certificate = fs.readFileSync('C:/Users/Patrick/.ssh/selfsigned.crt', 'utf8');
@@ -19,6 +19,7 @@ var hashCreator = require('pbkdf2-password');
 var hasher = hashCreator();
 var cors = require('cors');
 var bodyParser = require('body-parser');
+// const conf = require('../res/config');
 
 var app = module.export =  express();
 
@@ -142,9 +143,6 @@ app.get("/test", function(req,res) {
     res.send("TEST");
 });
 
-
-var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
 
-httpServer.listen(8080, () => console.log("Listening on Port 8080 (HTTP)"));
-httpsServer.listen(8443, () => console.log("Listening on Port 8443 (HTTPS)"));
+httpsServer.listen(apiPort, () => console.log("Listening on Port " + apiPort + " (HTTPS)"));

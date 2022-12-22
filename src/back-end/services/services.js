@@ -1,5 +1,5 @@
 var token;
-const apiAddress = "192.168.178.43"
+import { apiAddress, apiPort } from "../../res/config";
 
 export function setTokenLocal(tokenNew) {token = tokenNew}
 
@@ -16,7 +16,7 @@ async function handleResponse(res) {
 }
 
 export async function login(credentials) {
-  return await fetch('https://' + apiAddress + ':8443/login', {
+  return await fetch('https://' + apiAddress + ':' + apiPort +'/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -26,7 +26,7 @@ export async function login(credentials) {
 }
 
 export function fetchPayments() {
-  return fetch('https://' + apiAddress + ':8443/payments', {
+  return fetch('https://' + apiAddress + ':' + apiPort + '/payments', {
     method: 'POST',
     headers:{
       'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ export function fetchPayments() {
 }
 
 export function fetchDeposits() {
-  return fetch('https://' + apiAddress + ':8443/deposits', {
+  return fetch('https://' + apiAddress + ':' + apiPort + '/deposits', {
     method: 'POST',
     headers:{
       'Content-Type': 'application/json'
@@ -49,8 +49,8 @@ export function fetchDeposits() {
 }
 
 export function addPayment(item) {
-  return fetch('https://' + apiAddress + ':8443/payments', {
-    method: 'POST',
+  return fetch('https://' + apiAddress + ':' + apiPort +'/payments', {
+    method: 'POST', 
     headers: {
         'Content-Type': 'application/json'
     },
@@ -60,7 +60,7 @@ export function addPayment(item) {
  }
 
 export function addDeposit(item) {
-  return fetch('https://' + apiAddress + ':8443/deposits', {
+  return fetch('https://' + apiAddress + ':' + apiPort + '/deposits', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -71,7 +71,7 @@ export function addDeposit(item) {
 }
 
 export function deletePayment(id) {
-  return fetch('https://' + apiAddress + ':8443/payments', {
+  return fetch('https://' + apiAddress + ':' + apiPort +'/payments', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -82,7 +82,7 @@ export function deletePayment(id) {
 }
 
 export function deleteDeposit(id) {
-  return fetch('https://' + apiAddress + ':8443/deposits', {
+  return fetch('https://' + apiAddress + ':' + apiPort + '/deposits', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
