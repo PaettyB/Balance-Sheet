@@ -7,12 +7,12 @@
 #logoutContainer {
     display:flex;
     align-items: center;
-    justify-content: center;
-    width: 20%;
+    justify-content: right;
+    width: 30%;
 }
 
 #logout {
-    width: 70px;
+    width: 20%;
     height: 50%;
 }
 

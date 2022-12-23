@@ -32,6 +32,7 @@ export default function ListTab({setList,getList, addTransaction, deleteTransact
         const ok = addTransaction(newListItem);
         ok.then(ok => {
             if(!ok) return;
+            commentRef.current.value = "";
             setList(prevList => {
                 return [...prevList, newListItem]
             });
@@ -84,7 +85,7 @@ export default function ListTab({setList,getList, addTransaction, deleteTransact
             <div id='itemAddContainer'>
                 <form>
                 <input ref={dateRef} type="date" defaultValue={getTodaysDate()}></input> 
-                <input ref={amountRef} type="number" defaultValue='1.00' placeholder="Amount" min='0' step="0.5"></input> 
+                <input ref={amountRef} onClick={(e) => e.target.select()} type="number" defaultValue='1.00' placeholder="Amount" min='0' step="0.5"></input> 
                 <input ref={commentRef} type="text" placeholder="Comment"></input> 
                 <button onClick={handleAddListItem}>Add Item</button>
                 </form>

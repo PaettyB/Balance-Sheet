@@ -10,7 +10,6 @@ export const LOCAL_STORAGE_TOKEN = "token"
 export const AppState =  {
     AddPayments: 0,
     AddDeposits: 1,
-    Edit: 2
 }
 
 function App() {    
