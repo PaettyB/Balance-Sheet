@@ -6,11 +6,8 @@ var https = require('https');
 var privateKey  = fs.readFileSync(conf.privateKeyPath, 'utf8');
 var certificate = fs.readFileSync(conf.certificatePath, 'utf8');
 
-const paymentFile = process.cwd()+"/paymentData.json";
-const depositFile = process.cwd()+"/depositData.json";
-
-var paymentData = JSON.parse(fs.readFileSync(paymentFile, "utf-8")).payments;
-var depositData = JSON.parse(fs.readFileSync(depositFile, "utf-8")).deposits;
+var paymentData = JSON.parse(fs.readFileSync(conf.paymentFile, "utf-8")).payments;
+var depositData = JSON.parse(fs.readFileSync(conf.depositFile, "utf-8")).deposits;
 
 var credentials = {key: privateKey, cert: certificate};
 var express = require('express');
@@ -99,7 +96,7 @@ function removeItemFromList(l, id){
 app.post('/payments', jsonParser, restrict, function(req, res, next) {
     if(req.body.action === "ADD"){
         paymentData.push(req.body.item);
-        fs.writeFileSync(paymentFile, JSON.stringify({"payments":paymentData}))
+        fs.writeFileSync(conf.paymentFile, JSON.stringify({"payments":paymentData}))
         res.sendStatus(200);
     } else if(req.body.action === "GET") {
         res.send(paymentData);
@@ -110,7 +107,7 @@ app.post('/payments', jsonParser, restrict, function(req, res, next) {
             res.sendStatus(400);
             return;
         }
-        fs.writeFileSync(paymentFile, JSON.stringify({"payments":paymentData}))
+        fs.writeFileSync(conf.paymentFile, JSON.stringify({"payments":paymentData}))
         res.sendStatus(200);
     } else {
         res.sendStatus(400);
@@ -120,7 +117,7 @@ app.post('/payments', jsonParser, restrict, function(req, res, next) {
 app.post('/deposits', jsonParser, restrict, function(req, res, next) {
     if(req.body.action === "ADD"){
         depositData.push(req.body.item);
-        fs.writeFileSync(depositFile, JSON.stringify({"deposits":depositData}))
+        fs.writeFileSync(conf.depositFile, JSON.stringify({"deposits":depositData}))
         res.sendStatus(200);
     }else if(req.body.action === "GET") {
         res.send(depositData);
@@ -131,7 +128,7 @@ app.post('/deposits', jsonParser, restrict, function(req, res, next) {
             res.sendStatus(400);
             return;
         }
-        fs.writeFileSync(depositFile, JSON.stringify({"deposits":depositData}))
+        fs.writeFileSync(conf.depositFile, JSON.stringify({"deposits":depositData}))
         res.sendStatus(200);
     } else {
         res.sendStatus(400);
