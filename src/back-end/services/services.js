@@ -1,5 +1,5 @@
 var token;
-import { apiAddress, apiPort } from "../../res/config";
+const { apiAddress, apiPort } = require("../../res/config")
 
 export function setTokenLocal(tokenNew) {token = tokenNew}
 
