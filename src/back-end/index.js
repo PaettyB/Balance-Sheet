@@ -1,10 +1,10 @@
-import { apiPort } from '../res/config';
 var secretToken = "1d794e0a0f9df0ac77e3800c757306f9";
 
+const conf = require('../res/config');
 var fs = require('fs');
 var https = require('https');
-var privateKey  = fs.readFileSync('C:/Users/Patrick/.ssh/selfsigned.key', 'utf8');
-var certificate = fs.readFileSync('C:/Users/Patrick/.ssh/selfsigned.crt', 'utf8');
+var privateKey  = fs.readFileSync(conf.privateKeyPath, 'utf8');
+var certificate = fs.readFileSync(conf.certificatePath, 'utf8');
 
 const paymentFile = process.cwd()+"/paymentData.json";
 const depositFile = process.cwd()+"/depositData.json";
@@ -19,7 +19,6 @@ var hashCreator = require('pbkdf2-password');
 var hasher = hashCreator();
 var cors = require('cors');
 var bodyParser = require('body-parser');
-// const conf = require('../res/config');
 
 var app = module.export =  express();
 
@@ -144,5 +143,4 @@ app.get("/test", function(req,res) {
 });
 
 var httpsServer = https.createServer(credentials, app);
-
-httpsServer.listen(apiPort, () => console.log("Listening on Port " + apiPort + " (HTTPS)"));
+httpsServer.listen(conf.apiPort, () => console.log("Listening on Port " + conf.apiPort + " (HTTPS)"));
