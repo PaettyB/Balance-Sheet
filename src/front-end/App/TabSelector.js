@@ -25,7 +25,7 @@ export default function TabSelector({getState, setState, deleteToken}) {
     <button className={"tabSelector" + (getState() === AppState.AddPayments?" active" : "")} onClick={handleSelectPayments}>Add Payments</button>
     <button className={"tabSelector" + (getState() === AppState.AddDeposits?" active" : "")} onClick={handleSelectDeposits}>Add Deposits</button>
     <div id='logoutContainer'>
-        <button id='logout' onClick={handleLogout}>Logout</button>
+        <button className='logout' onClick={handleLogout}>Logout</button>
     </div>
     </div>
     )
