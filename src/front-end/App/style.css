@@ -1,6 +1,18 @@
 :root {
     --highlight-color-dark: rgb(0, 51, 255);
     --highlight-color-light: rgb(25, 83, 255);
+    --highlight-green-light: rgb(68, 197, 43); 
+    --highlight-green-dark: rgb(43, 161, 41); 
+}
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-size: 13 px;
+  font-style: normal;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #tabSelectorContainer{
@@ -16,16 +28,29 @@
     width: 30%;
 }
 
-#logout {
-    width: 20%;
-    height: 50%;
+#titleContainer {
+  display:flex;
+  align-items: center;
+  justify-content: left;
+  width: 30%;
 }
 
 
 #itemAddContainer{
     display: flex;
     justify-content: center;
+    align-items: center;
     margin: 10px 0 20px 0;
+}
+
+input {
+  height: 30px;
+  font-size: 13px;
+}
+
+#datePicker{
+  position: relative;
+  top:-1px;
 }
 
 tr:hover .editButton{
@@ -34,7 +59,7 @@ tr:hover .editButton{
 
 td{
     border: 1px solid black;
-    padding:2px;
+    padding:5px;
     height: 100%;
 }
 
@@ -52,8 +77,6 @@ td{
     width: 16px;
     border: none;
 }
-
-
 
 table {
     border-collapse: collapse;
@@ -81,8 +104,8 @@ table {
   font-family: "Codec cold",sans-serif;
   font-size: 16px;
   font-weight: 700;
-  height: 100%;
-  width:20%;
+  height: 50px;
+  width: 100px;
   justify-content: center;
   letter-spacing: .4px;
   line-height: 1;
@@ -108,7 +131,7 @@ table {
 
 
 /* CSS */
-.tabSelector {
+.styledButton {
   align-items: center;
   background-clip: padding-box;
   background-color: rgb(230, 230, 230);
@@ -137,14 +160,39 @@ table {
   width: 15%;
 }
 
-.tabSelector:hover {
+.styledButton:hover {
   background-color: var(--highlight-color-light);
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
   transform: translateY(-1px);
 }
 
-.tabSelector.active {
+.styledButton.active {
   background-color: var(--highlight-color-dark);
   box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
   transform: translateY(0);
+  color: white;
+}
+
+.addTransaction {
+  background-color: var(--highlight-green-dark);
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  transition: all 250ms;
+  margin: 0 5px 0 5px;
+  padding: 5px;
+}
+
+.addTransaction:hover{
+  background-color: var(--highlight-green-light);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  transform: translateY(-1px);
+  color:black;
 }

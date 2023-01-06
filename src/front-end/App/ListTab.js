@@ -79,7 +79,7 @@ export default function ListTab({setList,getList, addTransaction, deleteTransact
                 <input ref={dateRef} id="datePicker" type="date"></input> 
                 <input ref={amountRef} onClick={(e) => e.target.select()} type="number" defaultValue='1.00' placeholder="Amount" min='0' step="0.5"></input> 
                 <input ref={commentRef} type="text" placeholder="Comment"></input> 
-                <button onClick={handleAddListItem}>Add Item</button>
+                <button onClick={handleAddListItem} className="addTransaction">Add Item</button>
                 </form>
             </div>
             <div id='tableContainer'>

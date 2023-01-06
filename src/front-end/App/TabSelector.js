@@ -19,11 +19,11 @@ export default function TabSelector({getState, setState, deleteToken}) {
 
     return (
     <div id='tabSelectorContainer'>
-    <div id='logoutContainer'>
-        
+    <div id='titleContainer'>
+        <h2>Bready's Balance Sheet</h2>
     </div>
-    <button className={"tabSelector" + (getState() === AppState.AddPayments?" active" : "")} onClick={handleSelectPayments}>Add Payments</button>
-    <button className={"tabSelector" + (getState() === AppState.AddDeposits?" active" : "")} onClick={handleSelectDeposits}>Add Deposits</button>
+    <button className={"styledButton" + (getState() === AppState.AddPayments?" active" : "")} onClick={handleSelectPayments}>Add Payments</button>
+    <button className={"styledButton" + (getState() === AppState.AddDeposits?" active" : "")} onClick={handleSelectDeposits}>Add Deposits</button>
     <div id='logoutContainer'>
         <button className='logout' onClick={handleLogout}>Logout</button>
     </div>

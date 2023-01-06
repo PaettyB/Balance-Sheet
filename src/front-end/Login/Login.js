@@ -23,7 +23,7 @@ export default function Login({setToken, getToken}) {
         <form>
             <input ref={usernameRef} type='text' placeholder='Username'></input>
             <input ref={passwordRef} type='password' placeholder='Password'></input>
-            <button type='submit' onClick={handleLogin}>Login</button>
+            <button type='submit' onClick={handleLogin} className="addTransaction">Login</button>
         </form>
     </div>
   )
