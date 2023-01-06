@@ -1,3 +1,8 @@
+:root {
+    --highlight-color-dark: rgb(0, 51, 255);
+    --highlight-color-light: rgb(25, 83, 255);
+}
+
 #tabSelectorContainer{
     display: flex;
     flex-flow: row nowrap;
@@ -16,15 +21,6 @@
     height: 50%;
 }
 
-.tabSelector {
-    padding: 10px;
-    margin: 10px;
-    width: 15%;
-}
-.active{
-    color:red;
-    /* scale: 115%; */
-}
 
 #itemAddContainer{
     display: flex;
@@ -74,7 +70,7 @@ table {
 /* CSS */
 .logout {
   align-items: center;
-  background-image: linear-gradient(135deg, #40c3f3 40%, #4d93fc);
+  background-image: linear-gradient(135deg, var(--highlight-color-dark) 40%, var(--highlight-color-light));
   border: 0;
   border-radius: 10px;
   box-sizing: border-box;
@@ -101,14 +97,6 @@ table {
   touch-action: manipulation;
 }
 
-.logout:active {
-  outline: 0;
-}
-
-.logout:hover {
-  outline: 0;
-}
-
 .logout span {
   transition: all 200ms;
 }
@@ -116,4 +104,47 @@ table {
 .logout:hover span {
   transform: scale(.9);
   opacity: .75;
+}
+
+
+/* CSS */
+.tabSelector {
+  align-items: center;
+  background-clip: padding-box;
+  background-color: rgb(230, 230, 230);
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  margin: 10px;
+  width: 15%;
+}
+
+.tabSelector:hover {
+  background-color: var(--highlight-color-light);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  transform: translateY(-1px);
+}
+
+.tabSelector.active {
+  background-color: var(--highlight-color-dark);
+  box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+  transform: translateY(0);
 }
