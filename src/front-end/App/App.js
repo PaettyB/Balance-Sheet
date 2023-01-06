@@ -28,6 +28,7 @@ function App() {
         let mounted = true;
         if(!checkToken()) 
             return () => mounted = true;
+        document.getElementById("datePicker").valueAsDate = new Date();
         fetchPayments()
             .then(response => {
                 if(mounted && response) {

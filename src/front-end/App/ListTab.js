@@ -72,19 +72,11 @@ export default function ListTab({setList,getList, addTransaction, deleteTransact
         return sum;
     }
 
-    function getTodaysDate() {
-        const date = new Date();
-        const day = date.getDate();
-        const month = date.getMonth() + 1;
-        const year = date.getFullYear();
-        return `${year}-${month}-${day}`;
-    }
-
     return (
         <>
             <div id='itemAddContainer'>
                 <form>
-                <input ref={dateRef} type="date" defaultValue={getTodaysDate()}></input> 
+                <input ref={dateRef} id="datePicker" type="date"></input> 
                 <input ref={amountRef} onClick={(e) => e.target.select()} type="number" defaultValue='1.00' placeholder="Amount" min='0' step="0.5"></input> 
                 <input ref={commentRef} type="text" placeholder="Comment"></input> 
                 <button onClick={handleAddListItem}>Add Item</button>
