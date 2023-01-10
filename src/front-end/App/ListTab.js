@@ -2,7 +2,7 @@ import React, {useRef} from 'react'
 import ItemList from './ItemList';
 import uuidv4 from 'uuid/v4'
 
-export default function ListTab({setList,getList, addTransaction, deleteTransaction}) { 
+export default function ListTab({setList,getList, addTransaction, deleteTransaction, getBalance}) { 
     
     const amountRef = useRef();
     const dateRef = useRef();
@@ -93,7 +93,9 @@ export default function ListTab({setList,getList, addTransaction, deleteTransact
                         </tr>
                     </tbody>
                 </table>
-            {/* <div className="sum">Sum: {calculateSum(getList())} €</div> */}
+            </div>
+            <div id="balanceContainer">
+                <p>Balance: {getBalance()} €</p>
             </div>
         </>
   )

@@ -17,11 +17,23 @@ function App() {
 
     const [payments, setPayments] = useState([]);
     const [deposits,setDeposits] = useState([]);
+    const [balance, setBalance] = useState([]);
 
     const {token, setToken, deleteToken} = useToken();
 
     function checkToken(){
         return (token);
+    }
+
+    function calculateBalance() {
+        let balance = 0;
+        for(let i = 0; i < payments.length; i++) {
+            balance -= payments[i];
+        }
+        for(let i = 0 ; i < deposits.length; i++) {
+            balance += deposits[i];
+        }
+        return balance;
     }
 
     useEffect(() => {
@@ -30,23 +42,24 @@ function App() {
             return () => mounted = true;
         document.getElementById("datePicker").valueAsDate = new Date();
         fetchPayments()
-            .then(response => {
-                if(mounted && response) {
-                setPayments(response)
-                } else {
-                   alert("Something went wrong");
-                   deleteToken();
-                }
-            });
-            fetchDeposits()
-            .then(response => {
-                if(mounted && response) {
-                setDeposits(response)
-                } else {
-                    alert("Something went wrong");
-                    deleteToken();
-                }
-            });
+        .then(response => {
+            if(mounted && response) {
+            setPayments(response)
+            } else {
+                alert("Something went wrong");
+                deleteToken();
+            }
+        });
+        fetchDeposits()
+        .then(response => {
+            if(mounted && response) {
+            setDeposits(response)
+            } else {
+                alert("Something went wrong");
+                deleteToken();
+            }
+        });
+        setBalance(calculateBalance());
         return () => mounted = false;
     }, [token]);
 
@@ -56,7 +69,7 @@ function App() {
     return (
         <>
         <TabSelector getState={getState} setState={setState} deleteToken={deleteToken}/>
-        <ContentPane getState={getState} getPayments={getPayments} setPayments={setPayments} getDeposits={getDeposits} setDeposits={setDeposits}></ContentPane>
+        <ContentPane getState={getState} getPayments={getPayments} setPayments={setPayments} getDeposits={getDeposits} setDeposits={setDeposits} getBalance={getBalance}></ContentPane>
         </>
     );
 
@@ -74,6 +87,10 @@ function App() {
 
     function getToken() {
         return token;
+    }
+
+    function getBalance() {
+        return balance;
     }
 }
 
