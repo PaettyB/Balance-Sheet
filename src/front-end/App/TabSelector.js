@@ -20,7 +20,8 @@ export default function TabSelector({getState, setState, deleteToken}) {
     return (
     <div id='tabSelectorContainer'>
     <div id='titleContainer'>
-        <h2>Bready's Balance Sheet</h2>
+        <img id='logo' src='/custom_logo.png' width='48px' alt="img"></img>
+        <h2 id='title'>Bready's Balance</h2>
     </div>
     <button className={"styledButton" + (getState() === AppState.AddPayments?" active" : "")} onClick={handleSelectPayments}>Add Payments</button>
     <button className={"styledButton" + (getState() === AppState.AddDeposits?" active" : "")} onClick={handleSelectDeposits}>Add Deposits</button>
