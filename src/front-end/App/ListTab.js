@@ -25,7 +25,7 @@ export default function ListTab({setList,getList, addTransaction, deleteTransact
 
     function handleAddListItem(e) {
         e.preventDefault();
-        const amount = amountRef.current.value;
+        const amount = parseFloat(amountRef.current.value).toFixed(2);
         const date = dateRef.current.value;
         const comment = commentRef.current.value;
         const newListItem = {id: generateId(), date:date, amount:amount, comment:comment}
@@ -40,7 +40,6 @@ export default function ListTab({setList,getList, addTransaction, deleteTransact
     }
 
     function removeItemFromList(l, id){
-        console.log(l);
         for(let i = l.length-1; i>=0; i--){
             if(l[i].id === id){
                 l.splice(i,1);
@@ -52,7 +51,7 @@ export default function ListTab({setList,getList, addTransaction, deleteTransact
     }
     
     function handleDeleteListItem(id) {
-        console.log("delete" + id);
+        if(!window.confirm("Are you sure you want to delete this transaction?")) return;
         const ok = deleteTransaction(id);
         ok.then(ok => {
             //TODO: ERROR MESSAGE FOT NOT REACHING THE API
@@ -72,6 +71,12 @@ export default function ListTab({setList,getList, addTransaction, deleteTransact
         return sum;
     }
 
+    function returnStyle () {
+        return {backgroundImage: getBalance() >= 0 ? 
+            "linear-gradient(135deg, var(--highlight-green-dark) 20%, var(--highlight-green-light))" 
+            : "linear-gradient(135deg, darkred 40%, firebrick)"};
+    }
+
     return (
         <>
             <form id='itemAddContainer'>
@@ -86,14 +91,14 @@ export default function ListTab({setList,getList, addTransaction, deleteTransact
                         <ItemList items={getList()} deleteListItem={handleDeleteListItem} />
                         <tr>
                             <td>SUM</td>
-                            <td>{calculateSum(getList())} €</td>
+                            <td>{calculateSum(getList()).toFixed(2)} €</td>
                             <td></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div id="balanceContainer">
-                <p>Balance: {getBalance()} €</p>
+            <div id="balanceContainer" style={returnStyle()}>
+                Balance: {getBalance().toFixed(2)} €
             </div>
         </>
   )

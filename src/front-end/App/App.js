@@ -17,7 +17,7 @@ function App() {
 
     const [payments, setPayments] = useState([]);
     const [deposits,setDeposits] = useState([]);
-    const [balance, setBalance] = useState([]);
+    const [balance, setBalance] = useState(0);
 
     const {token, setToken, deleteToken} = useToken();
 
@@ -28,10 +28,10 @@ function App() {
     function calculateBalance() {
         let balance = 0;
         for(let i = 0; i < payments.length; i++) {
-            balance -= payments[i];
+            balance -= parseFloat(payments[i].amount);
         }
         for(let i = 0 ; i < deposits.length; i++) {
-            balance += deposits[i];
+            balance += parseFloat(deposits[i].amount);
         }
         return balance;
     }
@@ -44,7 +44,7 @@ function App() {
         fetchPayments()
         .then(response => {
             if(mounted && response) {
-            setPayments(response)
+            setPayments(response);
             } else {
                 alert("Something went wrong");
                 deleteToken();
@@ -53,15 +53,18 @@ function App() {
         fetchDeposits()
         .then(response => {
             if(mounted && response) {
-            setDeposits(response)
+            setDeposits(response);
             } else {
                 alert("Something went wrong");
                 deleteToken();
             }
         });
-        setBalance(calculateBalance());
         return () => mounted = false;
     }, [token]);
+
+    useEffect( () => {
+        setBalance(calculateBalance());
+    }, [payments,deposits]);
 
     if(!checkToken()) {
         return(<Login setToken={setToken} getToken={getToken}></Login>);
