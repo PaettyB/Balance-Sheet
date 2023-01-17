@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './front-end/App/App';
 import './front-end/App/style.css';
+import './front-end/App/pico.min.css';
+import './front-end/App/flexboxgrid.min.css';
 import Login from './front-end/Login/Login';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
