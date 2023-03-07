@@ -216,6 +216,22 @@ table {
   font-weight: 700;
 }
 
+#pageSelector {
+  margin-top: 15px;
+  display:flex;
+  justify-content: center;
+}
+
+.pageButton{
+  font-size: large;
+  margin: 0 10px 0 10px;
+  padding: 0 5px 0 5px;
+  border: 1px solid var(--highlight-color-dark);
+  color: var(--highlight-color-dark);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 600px) {
   #title{
     display:none;

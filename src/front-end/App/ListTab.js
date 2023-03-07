@@ -2,11 +2,13 @@ import React, {useRef} from 'react'
 import ItemList from './ItemList';
 import uuidv4 from 'uuid/v4'
 
-export default function ListTab({setList,getList, addTransaction, deleteTransaction, getBalance}) { 
+export default function ListTab({setList,getList, addTransaction, deleteTransaction, getBalance, getPage, setPage}) { 
     
     const amountRef = useRef();
     const dateRef = useRef();
     const commentRef = useRef();
+
+    const {itemsPerPage} = require("../../res/config"); 
 
     function uuidIsTaken(l, id) {
         for(let t of l) {
@@ -63,6 +65,15 @@ export default function ListTab({setList,getList, addTransaction, deleteTransact
         });
     }
 
+    function handlePrevPage(e){
+        if(getPage() > 1)
+            setPage(getPage()-1)
+    }
+    function handleNextPage(e){
+        if(getPage() * itemsPerPage < getList().length) 
+            setPage(getPage()+1)
+    }
+
     function calculateSum(list){
         let sum = 0.0;
         for(let l of list){
@@ -88,17 +99,23 @@ export default function ListTab({setList,getList, addTransaction, deleteTransact
             <div id='tableContainer'>
                 <table>
                     <tbody>
-                        <ItemList items={getList()} deleteListItem={handleDeleteListItem} />
-                        <tr>
-                            <td>SUM</td>
-                            <td>{calculateSum(getList()).toFixed(2)} €</td>
-                            <td></td>
+                        <ItemList items={getList()} deleteListItem={handleDeleteListItem} getPage={getPage}/>
+                        {/* <tr><td style={{border:"none", height:"10px"}}></td></tr> */}
+                        <tr id='tableSum'>
+                            <td style={{borderWidth: "2px"}}>SUM</td>
+                            <td style={{borderWidth: "2px"}}>{calculateSum(getList()).toFixed(2)} €</td>
+                            <td style={{borderWidth: "2px"}}></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div id="balanceContainer" style={returnStyle()}>
                 Balance: {getBalance().toFixed(2)} €
+            </div>
+            <div id='pageSelector'>
+                <button onClick={handlePrevPage} className="pageButton">&larr;</button>
+                <p>Page {getPage()} / {Math.ceil(getList().length / itemsPerPage)}</p>
+                <button onClick={handleNextPage} className="pageButton">&rarr;</button>
             </div>
         </>
   )
