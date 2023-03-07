@@ -230,6 +230,11 @@ table {
   color: var(--highlight-color-dark);
   border-radius: 5px;
   cursor: pointer;
+  transition: all 150ms;
+}
+
+.pageButton:hover{
+  transform: scale(1.05);
 }
 
 @media only screen and (max-width: 600px) {
