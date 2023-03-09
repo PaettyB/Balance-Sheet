@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, Routes } from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import Home from './Home';
 import Login from '../Login/Login';
 import Register from '../Login/Register';
@@ -22,12 +22,14 @@ function App() {
     return (
         <>
             <Routes>
-                <Route path='/' element={<Home setToken={setToken} getToken={getToken} deleteToken={deleteToken}/>}>
+                <Route exact index path='/' element={<Home setToken={setToken} getToken={getToken} deleteToken={deleteToken}/>}>
                 </Route>
-                <Route path="/login"  element={<Login setToken={setToken} getToken={getToken} deleteToken={deleteToken}/>}>
+                <Route exact path="/login"  element={<Login setToken={setToken} getToken={getToken} deleteToken={deleteToken}/>}>
                 </Route>
-                <Route path="/register" element={<Register setToken={setToken} getToken={getToken} deleteToken={deleteToken}/>}></Route>
-                
+                <Route exact path="/register" element={<Register setToken={setToken} getToken={getToken} deleteToken={deleteToken}/>}></Route>
+                <Route path='*' element={<><h1 style={{padding:"20px"}}>404 Page Not found</h1></>}>
+                    
+                </Route>
             </Routes>
         </>
     )
