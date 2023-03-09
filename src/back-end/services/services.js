@@ -25,6 +25,10 @@ export async function login(credentials) {
   }).then(handleResponse);
 }
 
+export async function register(credentials) {
+  
+}
+
 export function fetchPayments() {
   return fetch('https://' + apiAddress + ':' + apiPort + '/payments', {
     method: 'POST',

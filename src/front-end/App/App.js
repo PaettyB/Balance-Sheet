@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react'
-import TabSelector from './TabSelector';
-import ContentPane from './ContentPane';
-import { fetchPayments, fetchDeposits } from '../../back-end/services/services';
+import React from 'react'
+import {Route, Routes } from 'react-router-dom';
+import Home from './Home';
 import Login from '../Login/Login';
+import Register from '../Login/Register';
 import useToken from '../Login/useToken';
 
 export const LOCAL_STORAGE_TOKEN = "token" 
@@ -13,90 +13,27 @@ export const AppState =  {
 }
 
 function App() {    
-    const [state, setState] = useState(AppState.AddPayments);
-
-    const [payments, setPayments] = useState([]);
-    const [deposits,setDeposits] = useState([]);
-    const [balance, setBalance] = useState(0);
-
     const {token, setToken, deleteToken} = useToken();
-
-    function checkToken(){
-        return (token);
-    }
-
-    function calculateBalance() {
-        let balance = 0;
-        for(let i = 0; i < payments.length; i++) {
-            balance -= parseFloat(payments[i].amount);
-        }
-        for(let i = 0 ; i < deposits.length; i++) {
-            balance += parseFloat(deposits[i].amount);
-        }
-        return balance;
-    }
-
-    useEffect(() => {
-        let mounted = true;
-        if(!checkToken()) 
-            return () => mounted = true;
-        document.getElementById("datePicker").valueAsDate = new Date();
-        fetchPayments()
-        .then(response => {
-            if(mounted && response) {
-            setPayments(response);
-            } else {
-                alert("Something went wrong");
-                deleteToken();
-            }
-        });
-        fetchDeposits()
-        .then(response => {
-            if(mounted && response) {
-            setDeposits(response);
-            } else {
-                alert("Something went wrong");
-                deleteToken();
-            }
-        });
-        return () => mounted = false;
-    }, [token]);
-
-    useEffect( () => {
-        setBalance(calculateBalance());
-    }, [payments,deposits]);
-
-    if(!checkToken()) {
-        return(<Login setToken={setToken} getToken={getToken}></Login>);
-    }
-    return (
-        <>
-        <TabSelector getState={getState} setState={setState} deleteToken={deleteToken}/>
-        <ContentPane getState={getState} getPayments={getPayments} setPayments={setPayments} getDeposits={getDeposits} setDeposits={setDeposits} getBalance={getBalance}></ContentPane>
-        </>
-    );
-
-    function getState(){
-        return state;
-    }
     
-    function getPayments(){
-        return payments;
-    }
-
-    function getDeposits(){
-        return deposits;
-    }
-
     function getToken() {
         return token;
     }
 
-    function getBalance() {
-        return balance;
-    }
+    return (
+        <>
+            <Routes>
+                <Route path='/' element={<Home setToken={setToken} getToken={getToken} deleteToken={deleteToken}/>}>
+                </Route>
+                <Route path="/login"  element={<Login setToken={setToken} getToken={getToken} deleteToken={deleteToken}/>}>
+                </Route>
+                <Route path="/register" element={<Register setToken={setToken} getToken={getToken} deleteToken={deleteToken}/>}></Route>
+                
+            </Routes>
+        </>
+    )
 }
 
 
 
 export default App;
+

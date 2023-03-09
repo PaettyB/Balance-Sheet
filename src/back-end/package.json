@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
@@ -19,6 +20,7 @@
     "http": "^0.0.1-security",
     "https": "^1.0.0",
     "path": "^0.12.7",
-    "pbkdf2-password": "^1.2.1"
+    "pbkdf2-password": "^1.2.1",
+    "sqlite3": "^5.1.4"
   }
 }

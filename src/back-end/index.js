@@ -3,6 +3,11 @@ var secretToken = "1d794e0a0f9df0ac77e3800c757306f9";
 const conf = require('../res/config');
 var fs = require('fs');
 var https = require('https');
+var bcrypt = require('bcrypt');
+var sqlite = require('sqlite3');
+
+var db = new sqlite.Database(conf.userDatabaseFile);
+
 var privateKey  = fs.readFileSync(conf.privateKeyPath, 'utf8');
 var certificate = fs.readFileSync(conf.certificatePath, 'utf8');
 
