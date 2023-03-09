@@ -7,7 +7,6 @@ export default function Login({setToken, getToken}) {
   const passwordRef = useRef();
 
   if(getToken()){
-    console.log(getToken());
     window.location="/";
     return(<></>);
   }

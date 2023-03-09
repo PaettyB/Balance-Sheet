@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import TabSelector from './TabSelector';
 import ContentPane from './ContentPane';
 import { fetchPayments, fetchDeposits } from '../../back-end/services/services';
+import { useNavigate } from 'react-router-dom';
 
 export const LOCAL_STORAGE_TOKEN = "token" 
 
@@ -12,17 +13,13 @@ export const AppState =  {
 
 function Home({getToken, setToken, deleteToken}) {    
     const [state, setState] = useState(AppState.AddPayments);
-    var token = getToken();
     const [payments, setPayments] = useState([]);
     const [deposits,setDeposits] = useState([]);
     const [balance, setBalance] = useState(0);
+    const navigate = useNavigate();
 
     function checkToken(){
-        return (token);
-    }
-    if(!checkToken()) {
-        window.location="/login";
-        return(<></>);
+        return getToken();
     }
 
     function calculateBalance() {
@@ -38,8 +35,9 @@ function Home({getToken, setToken, deleteToken}) {
 
     useEffect(() => {
         let mounted = true;
-        if(!getToken()) 
-            return () => mounted = true;
+        if(!checkToken()){ 
+            return navigate("/login")
+        }
         document.getElementById("datePicker").valueAsDate = new Date();
         fetchPayments()
         .then(response => {
@@ -60,7 +58,7 @@ function Home({getToken, setToken, deleteToken}) {
             }
         });
         return () => mounted = false;
-    }, [token]);
+    }, [getToken()]);
 
     useEffect( () => {
         setBalance(calculateBalance());
