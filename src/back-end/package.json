@@ -22,5 +22,8 @@
     "path": "^0.12.7",
     "pbkdf2-password": "^1.2.1",
     "sqlite3": "^5.1.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21"
   }
 }

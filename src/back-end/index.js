@@ -6,7 +6,7 @@ var https = require('https');
 var bcrypt = require('bcrypt');
 var sqlite = require('sqlite3');
 
-var db = new sqlite.Database(conf.userDatabaseFile);
+var db = new sqlite.Database(conf.databaseFile);
 
 var privateKey  = fs.readFileSync(conf.privateKeyPath, 'utf8');
 var certificate = fs.readFileSync(conf.certificatePath, 'utf8');
@@ -30,62 +30,52 @@ var jsonParser = bodyParser.json();
 app.use(cors());
 
 
-// dummy database
-var users = {
-    pb: { name: 'pb' }
-};
-
-hasher({ password: '5bd773f55ef2c4e7b37771f8594a53a3' }, function (err, pass, salt, hash) {
-    if (err) throw err;
-    // store the salt & hash in the "db"
-    users.pb.salt = salt;
-    users.pb.hash = hash;
-});
-
-// Authenticate using our plain-object database of doom!
-function authenticate(name, pass, fn) {
-    //if (!module.parent) 
-    console.log('authenticating %s', name);
-    var user = users[name];
-    // query the db for the given username
-    if (!user) return fn(null, null)
-    // apply the same algorithm to the POSTed password, applying
-    // the hash against the pass / salt, if there is a match we
-    // found the user
-    hasher({ password: pass, salt: user.salt }, function (err, pass, salt, hash) {
-      if (err) return fn(err);
-      if (hash === user.hash) return fn(null, user)
-      fn(null, null)
-    });
-}
+function internalError(res, message) {
+    console.error("[ERROR] " + message);
+    return res.status(500).json({status: "error", message: message});
+  }
+  function badRequest(res, message) {
+    return res.status(403).json({status: "error", message: message});
+  }
 
 function restrict(req, res, next) {
     if (req.body.token === secretToken) {
       next();
     } else {
-        res.sendStatus(403);
+        return badRequest(res, "Token invalid");
     }
 }
 
+app.post('/login', jsonParser, function (req, res, next) {
+    if(!req.body.username || !req.body.password) {
+        return badRequest(res, "Required username and password");
+    }
 
-
-app.use('/restricted', restrict, (req, res) => {
-    res.send({
-        token: "This is a secret token"
-    });
+    db.get("SELECT * FROM users WHERE username=?", req.body.username, (err, data) => {
+        if(err)
+            return internalError(res,err)
+        if(!data)
+            return badRequest(res, "User does not exists");
+        if(!bcrypt.compareSync(req.body.password, data["password"]))
+            return badRequest(res, "Wrong Username or Passsword");
+        res.json({token: secretToken});
+    })
 });
 
-app.post('/login', jsonParser, function (req, res, next) {
-    
-    authenticate(req.body.username, req.body.password, function(err, user){
-        if (err) return next(err)
-        if (user) {
-            res.send({ token: secretToken});
-        } else {
-            res.sendStatus(403);
-        }
-    });
-  });
+app.post('/register', jsonParser, function(req, res, next) {
+    if(!req.body.username || !req.body.password) {
+        return badRequest(res, "Required username and password");
+    }
+    bcrypt.genSalt(10)
+        .then(salt => bcrypt.hash(req.body.password, salt))
+        .then(hash => {
+            db.run("INSERT INTO users (username, password, role) VALUES (?, ?, ?)", req.body.username, hash, 'USER', (err)=> {
+                if(err)
+                    return internalError(res,err);
+                res.send({token: secretToken});
+            });
+        })
+}); 
 
 function removeItemFromList(l, id){
     for(let i = l.length-1; i>=0; i--){
@@ -108,13 +98,12 @@ app.post('/payments', jsonParser, restrict, function(req, res, next) {
         let deleted = removeItemFromList(paymentData, req.body.id);
         if(!deleted) {
             console.log("Item was not found: "+ req.body.id);
-            res.sendStatus(400);
-            return;
+            return badRequest(res, "Item not found. Please refresh the page");
         }
         fs.writeFileSync(conf.paymentFile, JSON.stringify({"payments":paymentData}))
         res.sendStatus(200);
     } else {
-        res.sendStatus(400);
+        return badRequest(res, "Only ADD | GET | DELETE are valid actions");
     }
 });
 
@@ -129,13 +118,12 @@ app.post('/deposits', jsonParser, restrict, function(req, res, next) {
         let deleted = removeItemFromList(depositData, req.body.id);
         if(!deleted) {
             console.log("Item was not found:" + req.body.id);
-            res.sendStatus(400);
-            return;
+            return badRequest(res, "Item not found. Please refresh the page");
         }
         fs.writeFileSync(conf.depositFile, JSON.stringify({"deposits":depositData}))
         res.sendStatus(200);
     } else {
-        res.sendStatus(400);
+        return badRequest(res, "Only ADD | GET | DELETE are valid actions");
     }
 });
 

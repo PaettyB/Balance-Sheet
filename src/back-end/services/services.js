@@ -5,10 +5,10 @@ export function setTokenLocal(tokenNew) {token = tokenNew}
 
 async function handleResponse(res) {
   if(res.status !== 200 && res.status !== 204){
-    return null;
+    return [(await res.json()).message, null];
   } else {
     try {
-      return await res.json();
+      return [null, await res.json()];
     } catch (e) {
       return res.statusText;
     }
@@ -26,7 +26,13 @@ export async function login(credentials) {
 }
 
 export async function register(credentials) {
-  
+  return await fetch('https://' + apiAddress + ':' + apiPort +'/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(credentials)
+  }).then(handleResponse);
 }
 
 export function fetchPayments() {
@@ -34,7 +40,6 @@ export function fetchPayments() {
     method: 'POST',
     headers:{
       'Content-Type': 'application/json'
-      // 'Upgrade-Insecure-Requests': 1
     },
     body: JSON.stringify({action: "GET", "token": token})
   })

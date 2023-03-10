@@ -15,11 +15,12 @@ export default function Register({setToken, getToken}) {
   function handleRegister(e){
         e.preventDefault();
         const t = register({"username": usernameRef.current.value, "password": passwordRef.current.value});
-        t.then(x => {
-        if(!x)
-            return;
-            //TODO: ERROR LOGIN MESSAGE
-        setToken(x.token);
+        t.then(([err, res]) => {
+        if(err) {
+          alert("Unable to Register Account: " + err);
+          return;
+        }
+        setToken(res.token);
         window.location.reload(false);
         });
     }

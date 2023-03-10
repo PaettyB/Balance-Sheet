@@ -14,14 +14,13 @@ export default function Login({setToken, getToken}) {
   function handleLogin(e){
     e.preventDefault();
     const t = login({"username": usernameRef.current.value, "password": passwordRef.current.value});
-    t.then(x => {
-      if(!x) {
-        alert("Unable to log in");
-        //TODO: ERROR LOGIN MESSAGE
+    t.then(([err, res]) => {
+      if(err) {
+        alert("Unable to log in: " + err);
         return;
       }
         
-      setToken(x.token);
+      setToken(res.token);
       window.location.reload(false);
     });
   }
@@ -29,12 +28,14 @@ export default function Login({setToken, getToken}) {
     <div style={{padding: "10px"}}>
         <h1>Login</h1>
         <form>
+            <p>Username</p>
             <input ref={usernameRef} type='text' placeholder='Username'></input>
+            <p>Password</p>
             <input ref={passwordRef} type='password' placeholder='Password'></input>
             <button type='submit' onClick={handleLogin} className="addTransaction">Login</button>
         </form>
         <div>
-          <p>No Account yet? <a href='/register'>Register</a></p>
+          <p><br></br>No Account yet? <a href='/register'>Register</a></p>
         </div>
     </div>
   )

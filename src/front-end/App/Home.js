@@ -40,22 +40,22 @@ function Home({getToken, setToken, deleteToken}) {
         }
         document.getElementById("datePicker").valueAsDate = new Date();
         fetchPayments()
-        .then(response => {
-            if(mounted && response) {
-                setPayments(response);
-            } else {
-                alert("Could not get Payments");
-                deleteToken();
+        .then(([err, response]) => {
+            if(!mounted || err){
+                alert("Could not get Payments: " + err);
+                // deleteToken();
+                return;
             }
+            setPayments(response);
         });
         fetchDeposits()
-        .then(response => {
-            if(mounted && response) {
-                setDeposits(response);
-            } else {
-                alert("Could not get Deposits");
-                deleteToken();
+        .then(([err, response]) => {
+            if(!mounted || err){
+                alert("Could not get Deposits: " + err);
+                // deleteToken();
+                return;
             }
+            setDeposits(response);
         });
         return () => mounted = false;
     }, [getToken()]);
