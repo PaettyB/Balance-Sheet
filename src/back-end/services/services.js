@@ -10,7 +10,7 @@ async function handleResponse(res) {
     try {
       return [null, await res.json()];
     } catch (e) {
-      return res.statusText;
+      return [null, res.statusText];
     }
   }
 }
@@ -39,9 +39,10 @@ export function fetchPayments() {
   return fetch('https://' + apiAddress + ':' + apiPort + '/payments', {
     method: 'POST',
     headers:{
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
     },
-    body: JSON.stringify({action: "GET", "token": token})
+    body: JSON.stringify({action: "GET"})
   })
     .then(handleResponse)
 }
@@ -50,9 +51,10 @@ export function fetchDeposits() {
   return fetch('https://' + apiAddress + ':' + apiPort + '/deposits', {
     method: 'POST',
     headers:{
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
     },
-    body: JSON.stringify({action: "GET", "token": token})
+    body: JSON.stringify({action: "GET"})
   })
     .then(handleResponse)
 }
@@ -61,9 +63,10 @@ export function addPayment(item) {
   return fetch('https://' + apiAddress + ':' + apiPort +'/payments', {
     method: 'POST', 
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
     },
-    body: JSON.stringify({action: "ADD", "token": token, item: item})
+    body: JSON.stringify({action: "ADD", item: item})
 
   }).then(handleResponse);
  }
@@ -72,9 +75,10 @@ export function addDeposit(item) {
   return fetch('https://' + apiAddress + ':' + apiPort + '/deposits', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
     },
-    body: JSON.stringify({action: "ADD", "token": token, item: item})
+    body: JSON.stringify({action: "ADD", item: item})
 
  }).then(handleResponse);
 }
@@ -83,9 +87,10 @@ export function deletePayment(id) {
   return fetch('https://' + apiAddress + ':' + apiPort +'/payments', {
     method: 'POST',
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
     },
-    body: JSON.stringify({action: "DELETE", "token": token, id: id})
+    body: JSON.stringify({action: "DELETE", id: id})
 
   }).then(handleResponse);
 }
@@ -94,9 +99,10 @@ export function deleteDeposit(id) {
   return fetch('https://' + apiAddress + ':' + apiPort + '/deposits', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
     },
-    body: JSON.stringify({action: "DELETE", "token": token, id: id})
+    body: JSON.stringify({action: "DELETE", id: id})
 
  }).then(handleResponse);
 }

@@ -47,6 +47,8 @@ function Home({getToken, setToken, deleteToken}) {
                 return;
             }
             setPayments(response);
+        }, (err) => {
+            alert("Could not reach API: " + err)
         });
         fetchDeposits()
         .then(([err, response]) => {
@@ -56,6 +58,8 @@ function Home({getToken, setToken, deleteToken}) {
                 return;
             }
             setDeposits(response);
+        }, (err) => {
+            alert("Could not reach API: " + err)
         });
         return () => mounted = false;
     }, [getToken()]);

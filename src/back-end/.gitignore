@@ -3,3 +3,4 @@
 *.service
 setupDatabase.js
 database
+startBackend.bat

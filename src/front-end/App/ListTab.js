@@ -31,14 +31,14 @@ export default function ListTab({setList,getList, addTransaction, deleteTransact
         const date = dateRef.current.value;
         const comment = commentRef.current.value;
         const newListItem = {id: generateId(), date:date, amount:amount, comment:comment}
-        const ok = addTransaction(newListItem);
-        ok.then(ok => {
-            if(!ok) return;
+        const res = addTransaction(newListItem);
+        res.then(([err, _]) => {
+            if(err) return alert(err);
             commentRef.current.value = "";
             setList(prevList => {
                 return [...prevList, newListItem]
             });
-        })
+        }, (err) => alert(err));
     }
 
     function removeItemFromList(l, id){
@@ -54,15 +54,15 @@ export default function ListTab({setList,getList, addTransaction, deleteTransact
     
     function handleDeleteListItem(id) {
         if(!window.confirm("Are you sure you want to delete this transaction?")) return;
-        const ok = deleteTransaction(id);
-        ok.then(ok => {
-            //TODO: ERROR MESSAGE FOT NOT REACHING THE API
-            if(!ok) return;
+        const res = deleteTransaction(id);
+        res.then(([err, _])=> {
+            console.log("ERR ", err);
+            if(err) return alert(err);
             setList(prevList => {
                 removeItemFromList(prevList, id);
                 return [...prevList];
             })
-        });
+        }, err => alert(err));
     }
 
     function handlePrevPage(e){
