@@ -21,7 +21,7 @@ export default function Register({setToken, getToken}) {
           return;
         }
         setToken(res.token);
-        window.location.reload(false);
+        window.location = "/"
         });
     }
 

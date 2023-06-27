@@ -21,7 +21,8 @@ export default function Login({setToken, getToken}) {
       }
         
       setToken(res.token);
-      window.location.reload(false);
+      // window.location.reload(false);
+      window.location = "/";
     });
   }
     return (
