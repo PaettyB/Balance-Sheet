@@ -1,4 +1,5 @@
 import React, {useRef} from 'react'
+import { Link } from 'react-router-dom';
 import { register } from '../../back-end/services/services';
 
 export default function Register({setToken, getToken}) {
@@ -36,7 +37,7 @@ export default function Register({setToken, getToken}) {
             <button type='submit' onClick={handleRegister} className="addTransaction">Register</button>
         </form>
         <div>
-          <p><br></br>Already have an Account? <a href='/login'>Log in</a></p>
+          <p><br></br>Already have an Account? <Link to='/login'>Login</Link></p>
         </div>
     </div>
   )

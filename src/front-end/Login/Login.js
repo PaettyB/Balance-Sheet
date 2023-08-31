@@ -1,4 +1,5 @@
 import React, {useRef} from 'react'
+import { Link } from 'react-router-dom';
 import { login } from '../../back-end/services/services';
 
 export default function Login({setToken, getToken}) {
@@ -36,7 +37,10 @@ export default function Login({setToken, getToken}) {
             <button type='submit' onClick={handleLogin} className="addTransaction">Login</button>
         </form>
         <div>
-          <p><br></br>No Account yet? <a href='/register'>Register</a></p>
+          {/* 
+          This is to fix the non-working routes on apache:
+          <p><br></br>No Account yet? <a href='/register'>Register</a></p> */}
+          <p><br></br>No Account yet? <Link to='/register'>Register</Link></p>
         </div>
     </div>
   )
