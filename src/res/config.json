@@ -1,0 +1,10 @@
+{
+    "apiAddress" : "[Server URL]",
+    "apiPort" : [Backend Port],
+    "privateKeyPath" : "[Path_to_privkey.pem]",
+    "certificatePath" : "[Path_to_cert.pem]",
+    "paymentFile" : "/var/www/db/paymentData.json",
+    "depositFile" : "/var/www/db/depositData.json",
+    "databaseFile": "/var/www/db/database",
+    "itemsPerPage": 20
+}
